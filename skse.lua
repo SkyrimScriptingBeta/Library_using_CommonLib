@@ -12,14 +12,18 @@ else
     print("SKYRIM_MODS_FOLDERS environment variable not set")
 end
 
-print("Skyrim versions to build for: " .. table.concat(skyrim_versions, ", "))
-
 for _, game_version in ipairs(skyrim_versions) do
     add_requires("skyrim-commonlib-" .. game_version)
 end
 
 for _, game_version in ipairs(skyrim_versions) do
-    target("SKSE Plugin - " .. game_version:upper())
+    target("StaticLibrary-" .. game_version:upper())
+        set_kind("static")
+        add_files("src/*.cpp")
+        add_includedirs("include", { public = true }) -- Your library's own include path
+        add_packages("skyrim-commonlib-" .. game_version)
+
+    target("_ SKSE Plugin - " .. game_version:upper())
         set_basename(mod_info.name .. "-" .. game_version:upper())
         add_files("*.cpp")
         add_packages("skyrim-commonlib-" .. game_version)
@@ -32,4 +36,5 @@ for _, game_version in ipairs(skyrim_versions) do
             author = mod_info.author,
             email = mod_info.email
         })
+        add_deps("StaticLibrary-" .. game_version:upper())
 end
