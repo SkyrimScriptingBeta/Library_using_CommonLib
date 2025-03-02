@@ -22,6 +22,11 @@ option("build_example")
     set_default(true)
 option_end()
 
+option("build_papyrus_scripts")
+    set_description("Build Papyrus scripts")
+    set_default(false)
+option_end()
+
 library_name = "MyStaticLibrary"
 
 -- Example SKSE plugin using the static library
@@ -33,7 +38,7 @@ mod_info = {
     mod_files = {"Scripts"}
 }
 
-skyrim_versions = {"ae", "ng"}
+skyrim_versions = {"ae", "se", "ng", "vr"}
 
 if has_config("include_repo_skyrimscripting") then
     add_repositories("SkyrimScripting https://github.com/SkyrimScripting/Packages.git")
@@ -58,5 +63,8 @@ end
 if has_config("build_example") then
     print("Building example project")
     includes("skse.lua")
+end
+
+if has_config("build_papyrus_scripts") then
     includes("papyrus.lua")
 end

@@ -24,6 +24,7 @@ package("my_static_library")
             -- Hardcoded options (disabling options which are 'true' for local development)
             require_commonlib = false,
             include_repo_skyrimscripting = false,
-            build_example = false
+            build_example = false,
+            build_papyrus_scripts = false
         })
     end)
